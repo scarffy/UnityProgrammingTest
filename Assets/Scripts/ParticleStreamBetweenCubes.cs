@@ -6,25 +6,25 @@ namespace TestAssignment
     public class ParticleStreamBetweenCubes : MonoBehaviour
     {
         [SerializeField] private Transform otherCube;
-        private ParticleSystem ps;
+        private ParticleSystem particlesSystem;
         private ParticleSystem.MainModule mainModule;
-        private ParticleSystem.VelocityOverLifetimeModule velModule;
+        private ParticleSystem.VelocityOverLifetimeModule velocityModule;
         
         private void Awake()
         {
-            if(ps == null)
-                ps = GetComponent<ParticleSystem>();
+            if(particlesSystem == null)
+                particlesSystem = GetComponent<ParticleSystem>();
             
-            mainModule = ps.main;
-            velModule = ps.velocityOverLifetime;
+            mainModule = particlesSystem.main;
+            velocityModule = particlesSystem.velocityOverLifetime;
             mainModule.playOnAwake = true;
-            ps.Stop();
+            particlesSystem.Stop();
         }
 
 
         private void Start()
         {
-            ps.Play();
+            particlesSystem.Play();
         }
 
 
@@ -40,10 +40,10 @@ namespace TestAssignment
 
             mainModule.startSpeed = Mathf.Max(1f, dist * 5f);
             
-            velModule.space = ParticleSystemSimulationSpace.World;
-            velModule.x = new ParticleSystem.MinMaxCurve(dir.x * mainModule.startSpeed.constant);
-            velModule.y = new ParticleSystem.MinMaxCurve(dir.y * mainModule.startSpeed.constant);
-            velModule.z = new ParticleSystem.MinMaxCurve(dir.z * mainModule.startSpeed.constant);
+            velocityModule.space = ParticleSystemSimulationSpace.World;
+            velocityModule.x = new ParticleSystem.MinMaxCurve(dir.x * mainModule.startSpeed.constant);
+            velocityModule.y = new ParticleSystem.MinMaxCurve(dir.y * mainModule.startSpeed.constant);
+            velocityModule.z = new ParticleSystem.MinMaxCurve(dir.z * mainModule.startSpeed.constant);
             
             transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
         }

@@ -13,8 +13,7 @@ namespace TestAssignment
 
         [SerializeField] private ControllerType controllerType;
         [SerializeField] private float speed = 5f;
-
-        // Boundaries for movement
+        
         [SerializeField] private Vector3 minBounds = new Vector3(-5f, 0f, -5f);
         [SerializeField] private Vector3 maxBounds = new Vector3(5f, 0f, 5f);
 
@@ -41,10 +40,8 @@ namespace TestAssignment
             {
                 input = input.normalized * speed * Time.deltaTime;
                 Vector3 newPosition = transform.position + new Vector3(input.x, 0f, input.z);
-
-                // Clamp the position to stay within bounds
+                
                 newPosition.x = Mathf.Clamp(newPosition.x, minBounds.x, maxBounds.x);
-                newPosition.y = Mathf.Clamp(newPosition.y, minBounds.y, maxBounds.y); // Optional if y can change
                 newPosition.z = Mathf.Clamp(newPosition.z, minBounds.z, maxBounds.z);
 
                 transform.position = newPosition;
