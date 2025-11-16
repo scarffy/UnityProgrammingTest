@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -9,11 +7,24 @@ namespace TestAssignment
 {
     public class Scene2Manager : MonoBehaviour
     {
+        public static Scene2Manager Instance { get; private set; }
+        
         [SerializeField] private Material material;
         [SerializeField] private TMP_InputField urlInputField;
         [SerializeField] private Button applyButton;
         
         [SerializeField] private TextMeshProUGUI statusText;
+
+        public Action<Texture2D> OnTextureDownloaded;
+
+        private void Awake()
+        {
+            if(Instance != null && Instance != this)
+                Destroy(this);
+            else
+                Instance = this;
+            
+        }
 
         private void Start()
         {
@@ -41,6 +52,7 @@ namespace TestAssignment
             {
                 material.SetTexture("_BaseMap", texture);
                 statusText?.SetText("Texture applied to material successfully.");
+                OnTextureDownloaded?.Invoke(texture);
                 Debug.Log("Texture applied to material successfully.");
             }
             else
